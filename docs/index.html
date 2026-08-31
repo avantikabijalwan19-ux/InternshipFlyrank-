@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Refresh / Content Opportunity Scoring — FlyRank Search Intelligence</title>
+
+    <meta
+        name="description"
+        content="A research study on refresh and content opportunity scoring using anonymized FlyRank search data."
+    >
+
+    <style>
+:root{--bg:#f4f1ea;--card:#fffdf8;--text:#1c1917;--muted:#6b6258;--border:#ded6c9;--accent:#8b5e34;--accent-light:#f1e8dc;--green:#47745c;--orange:#a15c32;--ink:#29231e;--max:1080px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 10% 0%,rgba(139,94,52,.08),transparent 28%),var(--bg);color:var(--text);font-family:Georgia,"Times New Roman",serif;line-height:1.72}
+.container{width:min(var(--max),calc(100% - 48px));margin:auto}
+header{padding:105px 0 85px;background:linear-gradient(135deg,#211c18 0%,#352a22 58%,#4a382b 100%);color:#fffaf3;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:360px;height:360px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-100px;top:-150px;box-shadow:0 0 0 45px rgba(255,255,255,.025),0 0 0 90px rgba(255,255,255,.02)}
+.eyebrow{color:#d8b894;font:700 12px Arial,sans-serif;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:22px}
+h1{font:700 clamp(42px,6.5vw,76px)/.98 Georgia,"Times New Roman",serif;letter-spacing:-2.8px;max-width:920px;margin:0 0 28px}
+.subtitle{max-width:750px;color:#ddd2c6;font-size:19px;line-height:1.65}
+.meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px}.pill{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);border-radius:6px;padding:8px 13px;font:12px Arial,sans-serif;color:#f3e9dd}
+main{padding:70px 0 100px}section{margin-bottom:82px}
+h2{font:34px/1.15 Georgia,"Times New Roman",serif;margin-bottom:25px;letter-spacing:-1px;color:var(--ink)}
+h3{font:17px Arial,sans-serif;letter-spacing:.2px;margin-top:34px;color:#3b3129}
+p{color:#403a34;max-width:850px}
+.abstract{font-size:19px;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:34px 36px;box-shadow:0 12px 35px rgba(53,42,34,.05)}
+.abstract:before{content:"RESEARCH NOTE";display:block;font:700 10px Arial,sans-serif;letter-spacing:2px;color:var(--accent);margin-bottom:15px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:32px 0}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:26px;box-shadow:0 8px 25px rgba(53,42,34,.035)}
+.stat-value{display:block;font:800 34px/1.1 Arial,sans-serif;margin-bottom:8px;color:var(--accent)}.stat-label{color:var(--muted);font:13px Arial,sans-serif}
+.callout{border-left:3px solid var(--accent);background:var(--accent-light);padding:21px 25px;margin:28px 0;border-radius:0 4px 4px 0}.warning{border-left-color:var(--orange);background:#f7eee6}.success{border-left-color:var(--green);background:#edf3ee}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin:28px 0;box-shadow:0 8px 25px rgba(53,42,34,.035)}
+th,td{padding:15px 17px;text-align:left;border-bottom:1px solid var(--border)}th{background:#ebe4d9;font:700 12px Arial,sans-serif;letter-spacing:.4px;color:#4a4037}tr:last-child td{border-bottom:none}
+.figure{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px;margin:32px 0;box-shadow:0 12px 30px rgba(53,42,34,.045)}.figure img{display:block;width:100%;height:auto;border-radius:2px}.caption{color:var(--muted);font:13px Arial,sans-serif;margin:16px 5px 4px}
+.feature-list{display:grid;grid-template-columns:1fr 1fr;gap:9px 24px;padding:0;list-style:none}.feature-list li{background:#faf7f1;border:1px solid var(--border);padding:11px 14px;border-radius:3px;font:12px "SFMono-Regular",Consolas,monospace;color:#5a493c}
+.recommendation{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:27px;margin:16px 0;box-shadow:0 7px 22px rgba(53,42,34,.035)}.rank{color:var(--accent);font:800 11px Arial,sans-serif;text-transform:uppercase;letter-spacing:1.3px}
+a{color:var(--accent);text-decoration:none;font-weight:600}a:hover{text-decoration:underline}
+footer{border-top:1px solid var(--border);padding:45px 0 75px;color:var(--muted);font:13px Arial,sans-serif;background:#eee9e0}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:27px}.button{display:inline-block;background:var(--ink);color:#fffaf3;padding:10px 15px;border-radius:4px;font:12px Arial,sans-serif}.button:hover{text-decoration:none;background:var(--accent)}
+code{background:#eee7dd;color:#69482d;padding:2px 5px;border-radius:3px;font-size:.88em}strong{color:#29231e}
+@media(max-width:760px){header{padding:65px 0 55px}.container{width:min(var(--max),calc(100% - 30px))}.grid,.feature-list{grid-template-columns:1fr}h1{font-size:clamp(40px,12vw,58px)}h2{font-size:28px}.abstract{padding:24px}table{font-size:13px}th,td{padding:10px}}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+
+        <div class="eyebrow">
+            Search Intelligence Research
+        </div>
+
+        <h1>
+            Refresh / Content Opportunity Scoring
+        </h1>
+
+        <div class="subtitle">
+            A measured, decision-support approach to prioritizing content
+            for human review using search visibility and engagement signals.
+        </div>
+
+        <div class="meta">
+            <span class="pill">Refresh / Content Opportunity Scoring</span>
+            <span class="pill">30,000 content items</span>
+            <span class="pill">Random Forest</span>
+            <span class="pill">Client-grouped validation</span>
+        </div>
+
+    </div>
+</header>
+
+
+<main>
+<div class="container">
+
+
+<!-- ====================================================== -->
+<!-- 1. ABSTRACT -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>Abstract</h2>
+
+    <div class="abstract">
+
+        This study asks whether search and content performance signals
+        can support a ranked review queue for identifying content that
+        may warrant refresh.
+
+        Using a 30,000-row anonymized FlyRank search dataset containing
+        44 columns, I defined trend direction as the observed target and
+        compared a transparent baseline with learned classification models.
+
+        The strongest evaluated model was a Random Forest, with 78.75%
+        accuracy and 76.82% weighted F1 under the original random split.
+
+        When validation was changed to hold out complete clients, performance
+        decreased to 72.40% accuracy and 69.35% weighted F1, providing a more
+        conservative estimate of generalization to unseen clients.
+
+        The resulting ranked queue is intended as decision support for human
+        content review, not as evidence that refreshing content will cause
+        improved search performance.
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 2. INTRODUCTION -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>1. Introduction / Problem</h2>
+
+    <p>
+        Content teams often have more pages to review than they can
+        realistically inspect at the same time. The practical question is
+        therefore not simply whether a page is performing well or poorly,
+        but which pages should receive attention first.
+    </p>
+
+    <p>
+        This project studies whether observable search and content signals
+        can be combined into a repeatable ranking system for that review
+        decision.
+    </p>
+
+    <div class="callout">
+        <strong>Decision supported:</strong>
+        prioritize pages for human review when measured signals indicate
+        that their observed performance may warrant a content refresh.
+    </div>
+
+    <p>
+        The unit of analysis is an individual content item. The output is
+        a ranked action queue containing an action, reason code, and score.
+        A human editor reviews the highest-ranked items and decides whether
+        a refresh, monitoring action, or no action is appropriate.
+    </p>
+
+    <p>
+        A wrong call has a real opportunity cost: editorial time can be
+        spent refreshing content that did not require intervention, while
+        genuinely useful review candidates could be delayed.
+    </p>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 3. DATA -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>2. Data</h2>
+
+    <div class="grid">
+
+        <div class="stat">
+            <span class="stat-value">30,000</span>
+            <span class="stat-label">Content items</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-value">44</span>
+            <span class="stat-label">Original columns</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-value">5</span>
+            <span class="stat-label">Trend categories</span>
+        </div>
+
+    </div>
+
+    <p>
+        The analysis uses the anonymized FlyRank ML Internship dataset.
+        The available data contains search visibility, traffic,
+        engagement, content characteristics, and trend-related fields.
+    </p>
+
+    <p>
+        The target distribution contains five observed trend categories:
+        <strong>down</strong>, <strong>stable</strong>, <strong>up</strong>,
+        <strong>new</strong>, and <strong>flat</strong>.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Trend direction</th>
+                <th>Observed items</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>down</td>
+                <td>16,262</td>
+            </tr>
+            <tr>
+                <td>stable</td>
+                <td>5,962</td>
+            </tr>
+            <tr>
+                <td>up</td>
+                <td>4,388</td>
+            </tr>
+            <tr>
+                <td>new</td>
+                <td>2,236</td>
+            </tr>
+            <tr>
+                <td>flat</td>
+                <td>1,152</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Client and content identifiers were retained only where needed for
+        grouping and traceability during analysis. They were excluded from
+        model features. The target fields <code>trend_direction</code> and
+        <code>trend_pct</code> were also excluded from the feature set.
+    </p>
+
+    <div class="callout warning">
+        No client names, domains, URLs, private queries, credentials,
+        or raw private exports are presented in this paper.
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 4. METHODOLOGY -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>3. Methodology</h2>
+
+    <h3>Target</h3>
+
+    <p>
+        The classification target is the observed
+        <code>trend_direction</code> category associated with each content
+        item.
+    </p>
+
+    <h3>Features</h3>
+
+    <p>
+        The model uses measurable content, search, traffic, engagement,
+        freshness, and visibility signals.
+    </p>
+
+    <ul class="feature-list">
+        <li>search_volume</li>
+        <li>competition</li>
+        <li>cpc</li>
+        <li>content_type</li>
+        <li>main_intent</li>
+        <li>word_count</li>
+        <li>char_count</li>
+        <li>impressions_90d</li>
+        <li>clicks_90d</li>
+        <li>pageviews_90d</li>
+        <li>sessions_90d</li>
+        <li>users_90d</li>
+        <li>engaged_sessions_90d</li>
+        <li>ai_sessions_90d</li>
+        <li>scroll_events_90d</li>
+        <li>days_with_impressions</li>
+        <li>days_with_sessions</li>
+        <li>impressions_last_30d</li>
+        <li>clicks_last_30d</li>
+        <li>sessions_last_30d</li>
+        <li>impressions_prev_30d</li>
+        <li>clicks_prev_30d</li>
+        <li>sessions_prev_30d</li>
+        <li>content_age_days</li>
+        <li>days_since_last_update</li>
+        <li>ctr</li>
+        <li>avg_position</li>
+        <li>engagement_rate</li>
+        <li>scroll_rate</li>
+        <li>ai_traffic_pct</li>
+    </ul>
+
+    <h3>Excluded fields</h3>
+
+    <p>
+        <code>trend_direction</code> and <code>trend_pct</code> were excluded
+        because they are directly related to the target. <code>content_id</code>
+        and <code>client_id</code> were excluded because they are identifiers,
+        not meaningful predictive content features.
+    </p>
+
+    <h3>Models</h3>
+
+    <p>
+        Logistic Regression was used as a readable first learned model.
+        Random Forest was then evaluated as a stronger nonlinear model.
+        The final action queue uses the Random Forest output because it
+        provided stronger measured classification performance.
+    </p>
+
+    <h3>Validation</h3>
+
+    <p>
+        The original Week-5 evaluation used a random split. Week-6 added
+        a stricter client-grouped validation design, where complete clients
+        were separated between training and testing.
+    </p>
+
+    <p>
+        The grouped evaluation used 25 training clients and 7 testing
+        clients, with zero client overlap.
+    </p>
+
+    <div class="callout success">
+        <strong>Leakage audit:</strong>
+        target-derived fields and identifiers were excluded from the
+        feature set. The recorded leakage audit passed its basic checks.
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 5. RESULTS -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>4. Results</h2>
+
+    <p>
+        The most important evaluation finding is that validation design
+        changes the measured result. The random split produced a higher
+        score, while holding out complete clients produced a more
+        conservative estimate.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Validation design</th>
+                <th>Accuracy</th>
+                <th>Weighted F1</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Week-5 random split</td>
+                <td>78.75%</td>
+                <td>76.82%</td>
+            </tr>
+            <tr>
+                <td>Week-6 client-grouped split</td>
+                <td>72.40%</td>
+                <td>69.35%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="figure">
+        <img
+            src="figures/capstone_validation_comparison.png"
+            alt="Model performance before and after client-grouped validation"
+        >
+
+        <p class="caption">
+            <strong>Figure 1.</strong>
+            Model performance under the original random split and the
+            stricter client-grouped validation design.
+        </p>
+    </div>
+
+    <p>
+        The decrease from 78.75% to 72.40% accuracy shows why the grouped
+        validation result is the more useful headline when discussing
+        generalization to unseen clients.
+    </p>
+
+    <h3>Feature importance</h3>
+
+    <p>
+        Random Forest feature importance provides a directional view of
+        which measured variables contributed most to the fitted model.
+        The strongest features were related primarily to recent and
+        historical visibility.
+    </p>
+
+    <div class="figure">
+        <img
+            src="figures/capstone_feature_importance.png"
+            alt="Top 10 Random Forest features"
+        >
+
+        <p class="caption">
+            <strong>Figure 2.</strong>
+            The ten highest Random Forest feature importance values in the
+            evaluated model.
+        </p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Importance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>impressions_prev_30d</td>
+                <td>0.146</td>
+            </tr>
+            <tr>
+                <td>impressions_last_30d</td>
+                <td>0.124</td>
+            </tr>
+            <tr>
+                <td>impressions_90d</td>
+                <td>0.062</td>
+            </tr>
+            <tr>
+                <td>avg_position</td>
+                <td>0.061</td>
+            </tr>
+            <tr>
+                <td>days_with_impressions</td>
+                <td>0.055</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        These importance values should be interpreted as model behavior,
+        not causal effects. They indicate which features were useful to
+        the fitted Random Forest, not that changing a feature will cause
+        a particular outcome.
+    </p>
+
+    <h3>Observed trend distribution</h3>
+
+    <div class="figure">
+        <img
+            src="figures/capstone_trend_distribution.png"
+            alt="Distribution of observed trend directions"
+        >
+
+        <p class="caption">
+            <strong>Figure 3.</strong>
+            Distribution of the observed trend-direction categories in the
+            evaluated dataset.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 6. LIMITATIONS -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>5. Limitations &amp; Honest Framing</h2>
+
+    <div class="callout warning">
+
+        <strong>This study does not show that refreshing content causes
+        improved search performance.</strong>
+
+        The analysis is observational and predictive. It identifies
+        patterns in measured data and produces a review priority, but it
+        does not provide a causal estimate of the effect of a refresh.
+    </div>
+
+    <p>
+        The random-split result was stronger than the client-grouped
+        result. This difference demonstrates that the evaluation design
+        matters and that the random-split score should not be treated as
+        evidence of universal performance.
+    </p>
+
+    <p>
+        The client-grouped result of 72.40% accuracy and 69.35% weighted F1
+        is a more conservative indication of how the evaluated model
+        behaved when complete clients were held out.
+    </p>
+
+    <p>
+        The model should therefore be understood as a
+        <strong>decision-support ranking system</strong>, not an automated
+        content editor, a guarantee of future traffic, or a model of
+        Google's ranking algorithm.
+    </p>
+
+    <p>
+        Feature importance is also not causal evidence. In addition,
+        the target distribution is imbalanced, with the `down` category
+        representing the largest observed class. Accuracy therefore
+        needs to be interpreted together with class-level metrics and
+        validation design.
+    </p>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 7. RECOMMENDATIONS -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>6. Ranked Recommendations</h2>
+
+    <p>
+        The final output converts model scores into a practical editorial
+        review queue. The queue is intended to reduce the amount of manual
+        searching required to decide which content should be inspected first.
+    </p>
+
+    <div class="recommendation">
+
+        <div class="rank">Priority 1 — Refresh review</div>
+
+        <h3>Declining + high visibility</h3>
+
+        <p>
+            Review content with a strong measured probability of the
+            <code>down</code> category combined with meaningful visibility.
+            These items receive the reason code
+            <code>DECLINING_HIGH_VISIBILITY</code>.
+        </p>
+
+    </div>
+
+    <div class="recommendation">
+
+        <div class="rank">Priority 2 — Review</div>
+
+        <h3>Declining content with lower visibility</h3>
+
+        <p>
+            Review lower-visibility declining items when editorial capacity
+            allows. Their potential value is less established by the
+            available measurements.
+        </p>
+
+    </div>
+
+    <div class="recommendation">
+
+        <div class="rank">Priority 3 — Monitor</div>
+
+        <h3>Stable, new, flat, or uncertain items</h3>
+
+        <p>
+            Monitoring is preferable to immediate intervention when the
+            measured evidence does not clearly justify a content change.
+        </p>
+
+    </div>
+
+    <h3>Human review rule</h3>
+
+    <p>
+        A model score alone should never trigger an automatic content
+        change. Before refreshing a page, an editor should inspect its
+        current content, search intent, freshness, visibility, and other
+        relevant context.
+    </p>
+
+    <h3>No-go cases</h3>
+
+    <ul>
+        <li>Do not automatically rewrite or delete content from the model output.</li>
+        <li>Do not interpret model probability as causal evidence.</li>
+        <li>Do not claim that the system predicts Google's ranking algorithm.</li>
+        <li>Do not treat a single score as sufficient evidence for a content decision.</li>
+        <li>Do not use client identifiers as predictive features.</li>
+    </ul>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 8. REPRODUCIBILITY -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>7. Reproducibility</h2>
+
+    <p>
+        The analysis was developed as a sequence of executable notebooks
+        under the repository's <code>work/notebooks/</code> directory.
+        Random seeds were fixed at 42 for the model and validation
+        experiments described here.
+    </p>
+
+    <div class="links">
+
+        <a
+            class="button"
+            href="../work/notebooks/w05_model.ipynb"
+        >
+            Week 5 Model
+        </a>
+
+        <a
+            class="button"
+            href="../work/notebooks/w06_validation_audit.ipynb"
+        >
+            Week 6 Validation Audit
+        </a>
+
+        <a
+            class="button"
+            href="../work/notebooks/w07_action_playbook.ipynb"
+        >
+            Week 7 Action Playbook
+        </a>
+
+        <a
+            class="button"
+            href="../work/notebooks/capstone.ipynb"
+        >
+            Capstone Notebook
+        </a>
+
+        <a
+            class="button"
+            href="../work/capstone_report.md"
+        >
+            Capstone Report
+        </a>
+
+    </div>
+
+    <p style="margin-top:30px;">
+        The repository also contains the working notebooks, analysis
+        artifacts, and report used to construct this page.
+    </p>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- 9. ACKNOWLEDGMENTS -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>8. Acknowledgments &amp; Data Credit</h2>
+
+    <p>
+        This project was completed as part of the FlyRank ML Internship.
+        The analysis is built on the anonymized FlyRank ML Internship
+        dataset.
+    </p>
+
+    <p>
+        Data source:
+        <a
+            href="https://flyrank.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            FlyRank
+        </a>
+    </p>
+
+    <p>
+        The dataset and analysis are used for research and educational
+        purposes within the internship framework. Public-facing results
+        intentionally avoid client-identifying information and private
+        search data.
+    </p>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- CONCLUSION -->
+<!-- ====================================================== -->
+
+<section>
+
+    <h2>Conclusion</h2>
+
+    <p>
+        The central result is not simply that the Random Forest achieved
+        a particular accuracy. The more important finding is that the
+        measured performance changed when the validation design became
+        more realistic for unseen clients.
+    </p>
+
+    <p>
+        The resulting model can therefore be useful as a prioritization
+        layer: it helps identify content that deserves human inspection,
+        while the final editorial decision remains with a reviewer.
+    </p>
+
+    <div class="callout success">
+
+        <strong>Bottom line:</strong>
+        the analysis supports a measured, repeatable way to prioritize
+        content review, but the evidence does not establish that a
+        recommended refresh will cause better search performance.
+
+    </div>
+
+</section>
+
+
+</div>
+</main>
+
+
+<footer>
+    <div class="container">
+
+        <strong>Refresh / Content Opportunity Scoring</strong>
+
+        <p>
+            Search Intelligence Research · FlyRank ML Internship
+        </p>
+
+        <p>
+            Claims are framed as observed, measured, directional, or
+            decision-support findings.
+        </p>
+
+    </div>
+</footer>
+
+</body>
+</html>
